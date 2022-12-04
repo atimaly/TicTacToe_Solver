@@ -113,46 +113,54 @@ class GameTicTac{
 				}
 			}
 			*/
+			pair<int,int> middle{2, 2};
 			vector<vector<bool>> possible_pos(5, vector<bool>(5, false));
 			FORG(i, -2, 2) {
 				FORG(j, -2, 2) {
 					if(ValidIndex(m.x + i, m.y + j)) {
 						if(state_[m.x + i][m.y + j] == state_[m.x][m.y])
-							possible_pos[m.x + i][m.y + j] = true;
+							possible_pos[middle.first + i][middle.second + j] = true;
 					}
 				}
 			}
 
 			#if _DEBUG
-			cerr << "\tPossible Positions:\n";
+			cerr << "\t\nPossible Positions:\n";
 			/*for(auto &[v, p] : possible_pos) {
 				cerr << "Pos: " << v.first << ", " << v.second << ", possibility: " << p << '\n';
 			}*/
+			/*
 			FOR(i,5) {
 				FOR(j,5) {
-				cerr << "Pos: " << i << ", " << j << ", possibility: " << possible_pos[i][j] << '\n';
+					cerr << "Pos: " << i << ", " << j << ", possibility: " << possible_pos[i][j] << "\n";
 				}
+			}
+			*/
+			for(auto &v : possible_pos) {
+				for(auto u : v) {
+					cerr << u << " ";
+				}
+				cerr << endl;
 			}
 			cerr << "End of listing\n";
 			#endif
 			
-			pair<int,int> middle{0,0};
-			if(possible_pos[m.x - 2][m.y - 2] && possible_pos[m.x - 1][m.y - 1] ) ++mv_score; //lu left upper
-			if(possible_pos[m.x + 2][m.y + 2] && possible_pos[m.x + 1][m.y + 1] ) ++mv_score; //rl right lower
+			if(possible_pos[middle.first - 2][middle.second - 2] && possible_pos[middle.first - 1][middle.second - 1] ) ++mv_score; //lu left upper
+			if(possible_pos[middle.first + 2][middle.second + 2] && possible_pos[middle.first + 1][middle.second + 1] ) ++mv_score; //rl right lower
 
-			if(possible_pos[m.x + 2][m.y - 2] && possible_pos[m.x + 1][m.y - 1] ) ++mv_score; //left low
-			if(possible_pos[m.x - 2][m.y + 2] && possible_pos[m.x - 1][m.y + 1] ) ++mv_score; //right upp
+			if(possible_pos[middle.first + 2][middle.second - 2] && possible_pos[middle.first + 1][middle.second - 1] ) ++mv_score; //left low
+			if(possible_pos[middle.first - 2][middle.second + 2] && possible_pos[middle.first - 1][middle.second + 1] ) ++mv_score; //right upp
 
-			if(possible_pos[m.x - 1][m.y] && possible_pos[m.x - 2][m.y] ) ++mv_score; //vertical upp
-			if(possible_pos[m.x + 1][m.y] && possible_pos[m.x + 2][m.y] ) ++mv_score; //vertical low
+			if(possible_pos[middle.first - 1][middle.second] && possible_pos[middle.first - 2][middle.second] ) ++mv_score; //vertical upp
+			if(possible_pos[middle.first + 1][middle.second] && possible_pos[middle.first + 2][middle.second] ) ++mv_score; //vertical low
 
-			if(possible_pos[m.x][m.y -1] && possible_pos[m.x][m.y - 2] ) ++mv_score; //horizontal left
-			if(possible_pos[m.x][m.y + 1] && possible_pos[m.x][m.y + 2] ) ++mv_score; //horizontal right
+			if(possible_pos[middle.first][middle.second -1] && possible_pos[middle.first][middle.second - 2] ) ++mv_score; //horizontal left
+			if(possible_pos[middle.first][middle.second + 1] && possible_pos[middle.first][middle.second + 2] ) ++mv_score; //horizontal right
 
-			if(possible_pos[m.x + 1][m.y + 1] && possible_pos[m.x - 1][m.y - 1] ) ++mv_score; //middle is move
-			if(possible_pos[m.x + 1][m.y - 1] && possible_pos[m.x - 1][m.y + 1] ) ++mv_score; //middle is move
-			if(possible_pos[m.x][m.y - 1] && possible_pos[m.x][m.y - 1] ) ++mv_score; //middle is move
-			if(possible_pos[m.x + 1][m.y] && possible_pos[m.x + 1][m.y] ) ++mv_score; //middle is move
+			if(possible_pos[middle.first + 1][middle.second + 1] && possible_pos[middle.first - 1][middle.second - 1] ) ++mv_score; //middle is move
+			if(possible_pos[middle.first + 1][middle.second - 1] && possible_pos[middle.first - 1][middle.second + 1] ) ++mv_score; //middle is move
+			if(possible_pos[middle.first][middle.second - 1] && possible_pos[middle.first][middle.second + 1] ) ++mv_score; //middle is move
+			if(possible_pos[middle.first + 1][middle.second] && possible_pos[middle.first - 1][middle.second] ) ++mv_score; //middle is move
 
 
 			return mv_score;
@@ -161,6 +169,9 @@ class GameTicTac{
 		void DoMove(const MoveT &m, bool maximizer) {
 			#if _DEBUG
 			cerr << "DoMove for: " << maximizer << endl;
+			#endif
+			#if _FIGHTTEST
+			assert(state_[m.x][m.y] == 0);
 			#endif
 			if(maximizer) {
 				state_[m.x][m.y] = 1;
@@ -213,8 +224,8 @@ class GameTicTac{
 			cerr << "Solmaxi Current state of the map:\n";
 			Print_Matrix(state_);
 			cerr << "Current best move: " << best_move.second << "with value of " << best_move.first << endl;
-			cerr << "Current scores: "; Print_pair(scores_); 
-			#endif
+			cerr << "Current scores: "; Print_pair(scores_); cerr << '\n';
+		#endif
 
 			if(depth == 0) return EvaluateState().first - EvaluateState().second;
 			int maxi = -INF;
@@ -235,6 +246,8 @@ class GameTicTac{
 					}
 				}
 			}
+
+			if(maxi == -INF) return EvaluateState().first - EvaluateState().second;
 			
 			return maxi;
 		}
@@ -245,7 +258,7 @@ class GameTicTac{
 			cerr << "Solmini Current state of the map:\n";
 			Print_Matrix(state_);
 			cerr << "Current best move: " << best_move.second << "with value of " << best_move.first << endl;
-			cerr << "Current scores: "; Print_pair(scores_);
+			cerr << "Current scores: "; Print_pair(scores_); cerr << '\n';
 			#endif
 
 			if(depth == 0) return EvaluateState().first - EvaluateState().second;
@@ -267,16 +280,24 @@ class GameTicTac{
 					}
 				}
 			}
+
+			if(mini == INF) return EvaluateState().first - EvaluateState().second;
+
 			
 			return mini;
 		}
 
-		MoveT FindingBestMove(int depth) {
+		MoveT FindingBestMoveMinMax(int depth) {
+			int empty_places{0};
+			FOR(i,n_) empty_places += std::count(all(state_[i]), 0);
+
 			FOR(i, n_) {
 				FOR(j, n_) {
 					if(PossibleMove(MoveT{i,j})) {
 						DoMove(MoveT{i,j}, true);
+						//int score = Solmini(std::min(depth - 1, empty_places - 1));
 						int score = Solmini(depth - 1);
+
 						if(best_move.first <= score) {
 							best_move.first = score;
 							best_move.second = MoveT{i,j};
@@ -405,7 +426,7 @@ class AlphaBetaSolver : public GameTicTac<MoveT> {
 
 int main() {
 	//int n; cin >> n;
-	
+	/*
 	GameTicTac<Move> g(3);
 	g.PrintData();
 	g.DoMove(Move{1,1}, true);
@@ -419,22 +440,24 @@ int main() {
 	g.PrintData();
 	g.FindingBestMove(2);
 	g.PrintData();
-
-	/*
-	int n = 3;
+	*/
+	
+	int n = 4;
 	GameTicTac<Move> g_2(n);
 	//g_2.OptimalGamePlay(true);
 	FOR(i,n*n) {
 		cout << "Give me the move: " << endl;
 		int x,y; cin >> x >> y;
 		g_2.DoMove(Move{x,y}, false);
-		g_2.FindingBestMove(3);
+		g_2.FindingBestMoveMinMax(5);
 		cout << "\n---------DO BEST MOVE FOR AI BEGIN-----------\n";
+		cout << "current bet move's score is: " << g_2.best_move.first << endl;
 		g_2.DoMove(g_2.best_move.second, true);
 		g_2.best_move = pair<int, Move>{-INF, Move{0,0}};
 		cout << "\n---------DO BEST MOVE FOR AI END-----------\n";
 		g_2.PrintData();
 	}
-	*/
+	
+	
 }
 
