@@ -116,8 +116,10 @@ class GameTicTac{
 			vector<vector<bool>> possible_pos(5, vector<bool>(5, false));
 			FORG(i, -2, 2) {
 				FORG(j, -2, 2) {
-					if(ValidIndex(m.x + i, m.y + j) && state_[m.x + i][m.y + j] == state_[m.x][m.y]) 
-						possible_pos[m.x + i][m.y + j] = true;
+					if(ValidIndex(m.x + i, m.y + j)) {
+						if(state_[m.x + i][m.y + j] == state_[m.x][m.y])
+							possible_pos[m.x + i][m.y + j] = true;
+					}
 				}
 			}
 
@@ -131,9 +133,10 @@ class GameTicTac{
 				cerr << "Pos: " << i << ", " << j << ", possibility: " << possible_pos[i][j] << '\n';
 				}
 			}
+			cerr << "End of listing\n";
 			#endif
 			
-			
+			pair<int,int> middle{0,0};
 			if(possible_pos[m.x - 2][m.y - 2] && possible_pos[m.x - 1][m.y - 1] ) ++mv_score; //lu left upper
 			if(possible_pos[m.x + 2][m.y + 2] && possible_pos[m.x + 1][m.y + 1] ) ++mv_score; //rl right lower
 
@@ -402,8 +405,8 @@ class AlphaBetaSolver : public GameTicTac<MoveT> {
 
 int main() {
 	//int n; cin >> n;
-	/*
-	GameTicTac<Move> g(4);
+	
+	GameTicTac<Move> g(3);
 	g.PrintData();
 	g.DoMove(Move{1,1}, true);
 	g.PrintData();
@@ -414,9 +417,10 @@ int main() {
 	g.UndoMove(false);
 	g.UndoMove(true);
 	g.PrintData();
-	g.Solmaxi(2);
-	g.PrintData();*/
+	g.FindingBestMove(2);
+	g.PrintData();
 
+	/*
 	int n = 3;
 	GameTicTac<Move> g_2(n);
 	//g_2.OptimalGamePlay(true);
@@ -431,6 +435,6 @@ int main() {
 		cout << "\n---------DO BEST MOVE FOR AI END-----------\n";
 		g_2.PrintData();
 	}
-
+	*/
 }
 
