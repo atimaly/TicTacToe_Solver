@@ -1,0 +1,3 @@
+/home/anarchturandot/Documents/C++/CodinGame/TicTacToe/build/CMakeFiles/rebuild_cache.dir
+/home/anarchturandot/Documents/C++/CodinGame/TicTacToe/build/CMakeFiles/edit_cache.dir
+/home/anarchturandot/Documents/C++/CodinGame/TicTacToe/build/CMakeFiles/tictactoe_bin.dir
