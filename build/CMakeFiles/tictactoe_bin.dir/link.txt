@@ -1,0 +1,1 @@
+/usr/bin/clang++  -fdiagnostics-color=always  -Wshadow -Wall -Wno-unused-result -D _FIGHTTEST   CMakeFiles/tictactoe_bin.dir/src/main.cpp.o  -o tictactoe_bin 

@@ -1,0 +1,7 @@
+[
+{
+  "directory": "/home/anarchturandot/Documents/C++/CodinGame/TicTacToe/build",
+  "command": "/usr/bin/clang++   -I/home/anarchturandot/Documents/C++/CodinGame/TicTacToe/includes  -fdiagnostics-color=always  -Wshadow -Wall -Wno-unused-result -D _FIGHTTEST   -Wall -Wextra -Wpedantic -Werror -std=gnu++17 -o CMakeFiles/tictactoe_bin.dir/src/main.cpp.o -c /home/anarchturandot/Documents/C++/CodinGame/TicTacToe/src/main.cpp",
+  "file": "/home/anarchturandot/Documents/C++/CodinGame/TicTacToe/src/main.cpp"
+}
+]

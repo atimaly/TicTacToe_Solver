@@ -1,0 +1,46 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+../includes/counting_tictac_base.hpp
+algorithm
+-
+bits/stdc++.h
+-
+cstddef
+-
+cstdint
+-
+random
+-
+utility.hpp
+../includes/utility.hpp
+transpose_table.hpp
+../includes/transpose_table.hpp
+
+../includes/minmax_solver.hpp
+bits/stdc++.h
+-
+counting_tictac_base.hpp
+../includes/counting_tictac_base.hpp
+transpose_table.hpp
+../includes/transpose_table.hpp
+
+../includes/transpose_table.hpp
+bits/stdc++.h
+-
+
+../includes/utility.hpp
+bits/stdc++.h
+-
+
+/home/anarchturandot/Documents/C++/CodinGame/TicTacToe/src/main.cpp
+bits/stdc++.h
+-
+minmax_solver.hpp
+/home/anarchturandot/Documents/C++/CodinGame/TicTacToe/src/minmax_solver.hpp
+
