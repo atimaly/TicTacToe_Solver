@@ -2,10 +2,10 @@
 TicTacToe_Solver
 
 Memorization Techinque: \
-Transposition Table \
+Transposition Table
 
 Algorithms Implemented or In Mind to be Implemented: \
 MinMax \
 Alpha-Beta \
-Iterative Deepening \
+Iterative Deepening 
 
